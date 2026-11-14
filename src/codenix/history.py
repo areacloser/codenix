@@ -32,9 +32,13 @@ class ConversationHistory:
         """追加模型返回的完整 assistant 消息（可能带 tool_calls）。"""
         self._messages.append(message)
 
-    def add_tool_result(self, tool_call_id: str, content: str) -> None:
+    def add_tool(self, tool_call_id: str, content: str) -> None:
         self._messages.append({
             "role": "tool",
             "tool_call_id": tool_call_id,
             "content": content,
         })
+
+    def clear(self) -> None:
+        """清空对话历史，但保留系统提示词。"""
+        self._messages.clear()

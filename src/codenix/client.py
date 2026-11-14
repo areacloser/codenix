@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import Any
 
 import httpx
@@ -11,16 +10,7 @@ from codenix.config import Config
 class ClientError(RuntimeError):
     """API 返回非 2xx 或响应结构异常。"""
 
-
-@dataclass
-class CompletionResult:
-    """对 chat completion 响应中 choices[0] 的轻量封装。"""
-    message: dict[str, Any]
-    finish_reason: str | None
-    raw: dict[str, Any]
-
-
-class ChatClient:
+class ChatCompletionClient:
     def __init__(self, config: Config) -> None:
         self._config = config
         self._http = httpx.Client(
@@ -35,7 +25,7 @@ class ChatClient:
     def close(self) -> None:
         self._http.close()
 
-    def __enter__(self) -> ChatClient:
+    def __enter__(self) -> ChatCompletionClient:
         return self
 
     def __exit__(self, *args: object) -> None:
@@ -45,8 +35,8 @@ class ChatClient:
         self,
         messages: list[dict[str, Any]],
         tools: list[dict[str, Any]] | None = None,
-        tool_choice: str = "auto",
-    ) -> CompletionResult:
+        tool_choice: str | dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         payload: dict[str, Any] = {
             "model": self._config.model,
             "messages": messages,
@@ -63,13 +53,4 @@ class ChatClient:
             )
 
         data = response.json()
-        choices = data.get("choices")
-        if not choices:
-            raise ClientError(f"响应缺少 choices: {data}")
-
-        choice = choices[0]
-        return CompletionResult(
-            message=choice["message"],
-            finish_reason=choice.get("finish_reason"),
-            raw=data,
-        )
+        return data
