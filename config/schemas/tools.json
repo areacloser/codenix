@@ -1,0 +1,26 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "run_shell",
+      "description": "在本地工作目录中执行一条 Shell 命令，并返回标准输出、标准错误和退出码。执行前会请求用户批准。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "要执行的 Shell 命令。"
+          },
+          "timeout": {
+            "type": "number",
+            "description": "超时时间（秒），默认 30 秒，最大 300 秒。",
+            "minimum": 0.1,
+            "maximum": 300
+          }
+        },
+        "required": ["command"],
+        "additionalProperties": false
+      }
+    }
+  }
+]
