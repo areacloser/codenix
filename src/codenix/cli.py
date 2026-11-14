@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import argparse
 import json
 import sys
 from pathlib import Path
@@ -23,27 +22,7 @@ HELP_TEXT = """可用命令：
   /exit    退出（/quit 同义）"""
 
 
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        prog="codenix",
-        description="基于 OpenAI 兼容 Chat Completions API 的终端 AI 编程助手。",
-    )
-    return parser
-
-
-def main(argv: list[str] | None = None) -> int:
-    parser = build_parser()
-    args = parser.parse_args(argv)
-
-    prompt = args.prompt
-    if prompt is not None and not prompt.strip():
-        prompt = None
-
-    if prompt is None and not sys.stdin.isatty():
-        # 管道输入为空，且没有交互终端可用。
-        parser.print_help()
-        return 2
-
+def main() -> int:
     try:
         config = Config.from_env()
     except ConfigError as exc:
