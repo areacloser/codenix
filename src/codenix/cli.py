@@ -2,18 +2,16 @@ from __future__ import annotations
 
 import json
 import sys
-from pathlib import Path
 from typing import Any
 
 from codenix import __version__
 from codenix.agent import Agent, AgentError
 from codenix.client import ClientError, ChatCompletionClient
-from codenix.config import PROJECT_ROOT, Config, ConfigError
+from codenix.config import CONFIG_DIR, WORKSPACE_DIR, Config, ConfigError
 from codenix.history import ConversationHistory
 from codenix.tools.registry import ToolContext, ToolError, ToolRegistry
 
-SYSTEM_PROMPT_FILE = Path(__file__).resolve().parent / "prompts" / "system.md"
-WORKSPACE_DIR = PROJECT_ROOT / "workspace"
+SYSTEM_PROMPT_FILE = CONFIG_DIR / "prompts" / "system.md"
 
 HELP_TEXT = """可用命令：
   /help    显示帮助

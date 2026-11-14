@@ -5,7 +5,7 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
-from codenix.config import PROJECT_ROOT
+from codenix.config import CONFIG_DIR
 from codenix.tools.base import (
     ToolContext,
     ToolDenied,
@@ -13,7 +13,7 @@ from codenix.tools.base import (
     ToolHandler,
 )
 
-DEFAULT_SCHEMAS_FILE = PROJECT_ROOT / "schemas" / "tools.json"
+DEFAULT_SCHEMAS_FILE = CONFIG_DIR / "schemas" / "tools.json"
 
 
 class ToolRegistry:
