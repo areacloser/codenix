@@ -31,10 +31,16 @@ class ToolRegistry:
         schemas_file: Path = DEFAULT_SCHEMAS_FILE,
     ) -> ToolRegistry:
         # 延迟导入，避免 tools 子模块与 registry 之间形成循环依赖。
-        from codenix.tools import shell
+        from codenix.tools import shell, filesystem, web
 
         registry = cls(context)
         registry.register("run_shell", shell.run_shell)
+        registry.register("read_file", filesystem.read_file)
+        registry.register("write_file", filesystem.write_file)
+        registry.register("list_files", filesystem.list_files)
+        registry.register("get_file_info", filesystem.get_file_info)
+        registry.register("delete_file", filesystem.delete_file)
+        registry.register("web_fetch", web.web_fetch)
         registry.load_schemas(schemas_file)
         return registry
 

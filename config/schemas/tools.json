@@ -22,5 +22,166 @@
         "additionalProperties": false
       }
     }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "read_file",
+      "description": "读取工作目录中某个文件的指定行范围，返回带行号的内容。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "相对于工作目录的文件路径。"
+          },
+          "start_line": {
+            "type": "integer",
+            "description": "起始行号，从 1 开始，默认 1。",
+            "minimum": 1
+          },
+          "end_line": {
+            "type": "integer",
+            "description": "结束行号（包含），省略时读到文件末尾。",
+            "minimum": 1
+          }
+        },
+        "required": ["path"],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "write_file",
+      "description": "向工作目录中的文件写入完整内容（若文件不存在则创建），会覆盖原文件并自动创建父目录。执行前会请求用户批准。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "相对于工作目录的文件路径。"
+          },
+          "content": {
+            "type": "string",
+            "description": "要写入的完整文件内容。"
+          }
+        },
+        "required": ["path", "content"],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "list_files",
+      "description": "列出工作目录中某个路径下的文件和子目录。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "相对于工作目录的目录路径，默认当前目录。"
+          },
+          "recursive": {
+            "type": "boolean",
+            "description": "是否递归列出子目录，默认 false。"
+          },
+          "max_depth": {
+            "type": "integer",
+            "description": "递归时的最大深度，默认 2，最大 10。",
+            "minimum": 1,
+            "maximum": 10
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_file_info",
+      "description": "获取工作目录中某个文件的详细信息。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "相对于工作目录的文件路径。"
+          }
+        },
+        "required": ["path"],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "delete_file",
+      "description": "删除工作目录中某个文件或空目录。执行前会请求用户批准。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "相对于工作目录的文件或空目录路径。"
+          }
+        },
+        "required": ["path"],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "web_fetch",
+      "description": "从指定 URL 获取网页内容，返回 HTML 文本。执行前会请求用户批准。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "要获取的网页 URL。"
+          },
+          "timeout": {
+            "type": "number",
+            "description": "超时时间（秒），默认 10 秒，最大 60 秒。",
+            "minimum": 0.1,
+            "maximum": 60
+          }
+        },
+        "required": ["url"],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "web_search",
+      "description": "使用DeepSeek Search API搜索指定关键词，返回搜索结果的标题，连接和简介。执行前会请求用户批准。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "要搜索的关键词。"
+          },
+          "count": {
+            "type": "integer",
+            "description": "返回的搜索结果数量，默认 10，最大 50。",
+            "minimum": 1,
+            "maximum": 50
+          }
+        },
+        "required": ["query"],
+        "additionalProperties": false
+      }
+    }
   }
 ]

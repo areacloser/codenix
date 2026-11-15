@@ -40,3 +40,19 @@ class Config:
             timeout=float(os.getenv("AGENT_MAX_SHELL_TIMEOUT", "60")),
             max_tool_rounds=int(os.getenv("AGENT_MAX_TOOL_ROUNDS", "15")),
         )
+
+@dataclass(frozen=True)
+class ToolConfig:
+    web_search_api_key: str
+
+    @classmethod
+    def from_env(cls) -> ToolConfig:
+        web_search_api_key = os.getenv("WEB_SEARCH_API_KEY")
+        if not web_search_api_key:
+            raise ConfigError(
+                "WEB_SEARCH_API_KEY 未设置。请在 .env 或环境变量中配置。"
+            )
+
+        return cls(
+            web_search_api_key=web_search_api_key,
+        )
