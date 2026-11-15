@@ -159,7 +159,9 @@
         "additionalProperties": false
       }
     }
-  },
+  }
+]
+/*
   {
     "type": "function",
     "function": {
@@ -184,4 +186,4 @@
       }
     }
   }
-]
+*/
